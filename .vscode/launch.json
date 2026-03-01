@@ -1,0 +1,14 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot-EyeCareHubDbApplication<EyeCareHubDB>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.example.EyeCareHubDB.EyeCareHubDbApplication",
+      "projectName": "EyeCareHubDB",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
+}
