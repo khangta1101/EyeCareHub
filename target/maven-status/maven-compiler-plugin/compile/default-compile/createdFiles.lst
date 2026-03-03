@@ -13,6 +13,7 @@ com\example\EyeCareHubDB\dto\AccountDTO$AccountDTOBuilder.class
 com\example\EyeCareHubDB\controller\CategoryController.class
 com\example\EyeCareHubDB\dto\ProductDTO.class
 com\example\EyeCareHubDB\dto\ProductDetailResponse.class
+com\example\EyeCareHubDB\service\AuthenticationService$OtpEntry.class
 com\example\EyeCareHubDB\dto\AccountResponse.class
 com\example\EyeCareHubDB\dto\AddressUpdateRequest.class
 com\example\EyeCareHubDB\dto\ProductMediaDTO.class
@@ -25,6 +26,7 @@ com\example\EyeCareHubDB\dto\CategoryCreateRequest$CategoryCreateRequestBuilder.
 com\example\EyeCareHubDB\repository\CategoryRepository.class
 com\example\EyeCareHubDB\dto\ProductVariantCreateRequest.class
 com\example\EyeCareHubDB\dto\ProductMediaDTO$ProductMediaDTOBuilder.class
+com\example\EyeCareHubDB\dto\ForgotPasswordRequest.class
 com\example\EyeCareHubDB\dto\ProductVariantUpdateRequest.class
 com\example\EyeCareHubDB\entity\ProductVariant.class
 com\example\EyeCareHubDB\service\AddressService.class
@@ -47,6 +49,7 @@ com\example\EyeCareHubDB\repository\CustomerRepository.class
 com\example\EyeCareHubDB\dto\RegisterRequest.class
 com\example\EyeCareHubDB\entity\Policy.class
 com\example\EyeCareHubDB\dto\ProductVariantCreateRequest$ProductVariantCreateRequestBuilder.class
+com\example\EyeCareHubDB\exception\GlobalExceptionHandler.class
 com\example\EyeCareHubDB\dto\ProductUpdateRequest.class
 com\example\EyeCareHubDB\repository\ProductMediaRepository.class
 com\example\EyeCareHubDB\dto\LoginRequest$LoginRequestBuilder.class
@@ -86,6 +89,7 @@ com\example\EyeCareHubDB\dto\AccountUpdateRequest$AccountUpdateRequestBuilder.cl
 com\example\EyeCareHubDB\repository\AddressRepository.class
 com\example\EyeCareHubDB\controller\AuthenticationController.class
 com\example\EyeCareHubDB\dto\CustomerDTO$CustomerDTOBuilder.class
+com\example\EyeCareHubDB\dto\ForgotPasswordRequest$ForgotPasswordRequestBuilder.class
 com\example\EyeCareHubDB\dto\ProductCreateRequest$ProductCreateRequestBuilder.class
 com\example\EyeCareHubDB\controller\ProductVariantController.class
 com\example\EyeCareHubDB\entity\Product.class
