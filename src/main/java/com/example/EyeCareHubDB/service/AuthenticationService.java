@@ -1,16 +1,27 @@
 package com.example.EyeCareHubDB.service;
 
+import java.time.LocalDateTime;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ThreadLocalRandom;
+
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.example.EyeCareHubDB.dto.AccountResponse;
+import com.example.EyeCareHubDB.dto.ForgotPasswordRequest;
 import com.example.EyeCareHubDB.dto.LoginRequest;
 import com.example.EyeCareHubDB.dto.RegisterRequest;
+import com.example.EyeCareHubDB.dto.ResetPasswordRequest;
 import com.example.EyeCareHubDB.entity.Account;
 import com.example.EyeCareHubDB.entity.Customer;
 import com.example.EyeCareHubDB.repository.AccountRepository;
 import com.example.EyeCareHubDB.repository.CustomerRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+<<<<<<< Updated upstream
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,11 +30,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
+=======
+import lombok.RequiredArgsConstructor;
+>>>>>>> Stashed changes
 
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class AuthenticationService {
+<<<<<<< Updated upstream
 
     private final AccountRepository accountRepository;
     private final CustomerRepository customerRepository;
@@ -31,6 +46,17 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
+=======
+    private static final int OTP_EXPIRE_MINUTES = 5;
+    private static final int OTP_LENGTH = 6;
+    
+    private final AccountRepository accountRepository;
+    private final CustomerRepository customerRepository;
+    private final JavaMailSender mailSender;
+    
+    private final Map<String, OtpEntry> otpStore = new ConcurrentHashMap<>();
+    
+>>>>>>> Stashed changes
     public Account register(RegisterRequest request) {
         if (accountRepository.existsByEmail(request.getEmail())) {
             throw new RuntimeException("Email already registered: " + request.getEmail());
@@ -69,10 +95,18 @@ public class AuthenticationService {
 
         account.setLastLoginAt(LocalDateTime.now());
         accountRepository.save(account);
+<<<<<<< Updated upstream
 
         String token = jwtService.generateToken(account);
         String refreshToken = jwtService.generateRefreshToken(account);
 
+=======
+        
+        // TODO: Generate JWT token
+        String token = generateToken();
+        
+        // Get customer info if exists
+>>>>>>> Stashed changes
         Customer customer = customerRepository.findByAccountId(account.getId()).orElse(null);
 
         return AccountResponse.builder()
@@ -87,6 +121,7 @@ public class AuthenticationService {
                 .message("Login successfully")
                 .build();
     }
+<<<<<<< Updated upstream
 
     public void forgotPassword(String email) {
         Account account = accountRepository.findByEmail(email)
@@ -96,9 +131,87 @@ public class AuthenticationService {
     }
 
     public void resetPassword(String password) {
+=======
+    
+    public void forgotPassword(ForgotPasswordRequest request) {
+        if (request == null || request.getEmail() == null || request.getEmail().isBlank()) {
+            throw new RuntimeException("Email is required");
+        }
+
+        String email = request.getEmail().trim();
+        accountRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Email not found: " + email));
+
+        String otp = generateOtp();
+        LocalDateTime expiresAt = LocalDateTime.now().plusMinutes(OTP_EXPIRE_MINUTES);
+        otpStore.put(email, new OtpEntry(otp, expiresAt));
+
+        sendOtpEmail(email, otp, expiresAt);
+    }
+    
+    public void resetPassword(ResetPasswordRequest request) {
+        if (request == null || request.getEmail() == null || request.getEmail().isBlank()) {
+            throw new RuntimeException("Email is required");
+        }
+        if (request.getOtp() == null || request.getOtp().isBlank()) {
+            throw new RuntimeException("OTP is required");
+        }
+        if (request.getNewPassword() == null || request.getNewPassword().isBlank()) {
+            throw new RuntimeException("New password is required");
+        }
+
+        String email = request.getEmail().trim();
+        OtpEntry otpEntry = otpStore.get(email);
+        if (otpEntry == null) {
+            throw new RuntimeException("OTP not found. Please request a new OTP");
+        }
+        if (LocalDateTime.now().isAfter(otpEntry.expiresAt())) {
+            otpStore.remove(email);
+            throw new RuntimeException("OTP expired. Please request a new OTP");
+        }
+        if (!otpEntry.otp().equals(request.getOtp().trim())) {
+            throw new RuntimeException("Invalid OTP");
+        }
+
+        Account account = accountRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Email not found: " + email));
+
+        account.setPasswordHash(request.getNewPassword());
+        accountRepository.save(account);
+        otpStore.remove(email);
+>>>>>>> Stashed changes
     }
 
     public Account createAccountByAdmin(RegisterRequest request) {
         return register(request);
     }
+<<<<<<< Updated upstream
+=======
+    
+    private String generateToken() {
+        // TODO: Implement JWT token generation
+        return UUID.randomUUID().toString();
+    }
+
+    private String generateOtp() {
+        int min = (int) Math.pow(10, OTP_LENGTH - 1);
+        int max = (int) Math.pow(10, OTP_LENGTH) - 1;
+        return String.valueOf(ThreadLocalRandom.current().nextInt(min, max + 1));
+    }
+
+    private void sendOtpEmail(String email, String otp, LocalDateTime expiresAt) {
+        try {
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setTo(email);
+            message.setSubject("EyeCareHub - Password Reset OTP");
+            message.setText("Your OTP code is: " + otp + "\nThis OTP expires at: " + expiresAt + "\nIf you did not request this, please ignore this email.");
+            mailSender.send(message);
+        } catch (Exception ex) {
+            throw new RuntimeException("Cannot send OTP email. Please check mail server configuration.");
+        }
+    }
+
+    private record OtpEntry(String otp, LocalDateTime expiresAt) {
+    }
+>>>>>>> Stashed changes
 }

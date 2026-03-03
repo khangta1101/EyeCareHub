@@ -66,6 +66,7 @@ public class Customer {
     @Builder.Default
     @Column(nullable = false)
     private LocalDateTime updatedAt = LocalDateTime.now();
+<<<<<<< Updated upstream
 
     @PrePersist
     protected void onCreate() {
@@ -75,6 +76,19 @@ public class Customer {
             updatedAt = LocalDateTime.now();
     }
 
+=======
+    
+    @PrePersist
+    protected void onCreate() {
+        if (createdAt == null) {
+            createdAt = LocalDateTime.now();
+        }
+        if (updatedAt == null) {
+            updatedAt = LocalDateTime.now();
+        }
+    }
+    
+>>>>>>> Stashed changes
     @PreUpdate
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();

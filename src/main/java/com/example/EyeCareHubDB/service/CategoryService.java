@@ -1,16 +1,18 @@
 package com.example.EyeCareHubDB.service;
 
-import com.example.EyeCareHubDB.dto.CategoryDTO;
-import com.example.EyeCareHubDB.dto.CategoryCreateRequest;
-import com.example.EyeCareHubDB.dto.CategoryUpdateRequest;
-import com.example.EyeCareHubDB.entity.Category;
-import com.example.EyeCareHubDB.repository.CategoryRepository;
-import lombok.RequiredArgsConstructor;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import com.example.EyeCareHubDB.dto.CategoryCreateRequest;
+import com.example.EyeCareHubDB.dto.CategoryDTO;
+import com.example.EyeCareHubDB.dto.CategoryUpdateRequest;
+import com.example.EyeCareHubDB.entity.Category;
+import com.example.EyeCareHubDB.repository.CategoryRepository;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
@@ -55,7 +57,7 @@ public class CategoryService {
         }
         
         Category parent = null;
-        if (request.getParentId() != null) {
+        if (request.getParentId() != null && request.getParentId() > 0) {
             parent = categoryRepository.findById(request.getParentId())
                     .orElseThrow(() -> new RuntimeException("Parent category not found with id: " + request.getParentId()));
         }

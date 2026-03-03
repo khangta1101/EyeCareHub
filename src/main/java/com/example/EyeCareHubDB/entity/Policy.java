@@ -59,6 +59,7 @@ public class Policy {
     private LocalDateTime updatedAt = LocalDateTime.now();
 
     private LocalDateTime publishedAt;
+<<<<<<< Updated upstream
 
     @PrePersist
     protected void onCreate() {
@@ -68,6 +69,19 @@ public class Policy {
             updatedAt = LocalDateTime.now();
     }
 
+=======
+    
+    @PrePersist
+    protected void onCreate() {
+        if (createdAt == null) {
+            createdAt = LocalDateTime.now();
+        }
+        if (updatedAt == null) {
+            updatedAt = LocalDateTime.now();
+        }
+    }
+    
+>>>>>>> Stashed changes
     @PreUpdate
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();

@@ -5,12 +5,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.EyeCareHubDB.dto.AccountResponse;
+import com.example.EyeCareHubDB.dto.ForgotPasswordRequest;
 import com.example.EyeCareHubDB.dto.LoginRequest;
 import com.example.EyeCareHubDB.dto.RegisterRequest;
+import com.example.EyeCareHubDB.dto.ResetPasswordRequest;
 import com.example.EyeCareHubDB.entity.Account;
 import com.example.EyeCareHubDB.service.AuthenticationService;
 
@@ -38,14 +39,14 @@ public class AuthenticationController {
     }
     
     @PostMapping("/forgot-password")
-    public ResponseEntity<String> forgotPassword(@RequestParam String email) {
-        authenticationService.forgotPassword(email);
+    public ResponseEntity<String> forgotPassword(@RequestBody ForgotPasswordRequest request) {
+        authenticationService.forgotPassword(request);
         return ResponseEntity.ok("Send email successfully");
     }
     
     @PostMapping("/reset-password")
-    public ResponseEntity<String> resetPassword(@RequestParam String password) {
-        authenticationService.resetPassword(password);
+    public ResponseEntity<String> resetPassword(@RequestBody ResetPasswordRequest request) {
+        authenticationService.resetPassword(request);
         return ResponseEntity.ok("Reset password successfully");
     }
     

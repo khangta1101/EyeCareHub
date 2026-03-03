@@ -55,9 +55,14 @@ public class Account implements UserDetails {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private AccountStatus status = AccountStatus.ACTIVE;
+<<<<<<< Updated upstream
 
     @Builder.Default
     @Column(nullable = false, updatable = false)
+=======
+    
+    @Column(updatable = false)
+>>>>>>> Stashed changes
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @Builder.Default
@@ -68,6 +73,7 @@ public class Account implements UserDetails {
 
     @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
     private Customer customer;
+<<<<<<< Updated upstream
 
     @PrePersist
     protected void onCreate() {
@@ -77,6 +83,19 @@ public class Account implements UserDetails {
             updatedAt = LocalDateTime.now();
     }
 
+=======
+    
+    @PrePersist
+    protected void onCreate() {
+        if (createdAt == null) {
+            createdAt = LocalDateTime.now();
+        }
+        if (updatedAt == null) {
+            updatedAt = LocalDateTime.now();
+        }
+    }
+    
+>>>>>>> Stashed changes
     @PreUpdate
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
